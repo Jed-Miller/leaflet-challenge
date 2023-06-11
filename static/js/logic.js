@@ -8,7 +8,33 @@ d3.json(queryUrl).then(function(data)
     createFeatures(data.features);
 });
 
-function createFeatures(earthquakeData) {
+function circleSize(mag) {
+    return mag * 10000;
+};
+
+function colorDepth(depth)
+{
+    if (depth < 10) {
+        return "##b6f44c";
+    }
+    else if (depth < 30) {
+        return "#e1f34f";
+    }
+    else if (depth < 50) {
+        return "#f2dc4c";
+    }
+    else if (depth < 70) {
+        return "#f3ba4c";
+    }
+    else if (depth < 90) {
+        return "#efa76a";
+    }
+    else {
+        return "#ed6a6a";
+    }
+}
+
+function createFeatures(quakeData) {
     //Define a function that displays each feature in the features array.
     // Give each feature a popup that tells the place and time of the earthquake.
     function onEachFeature(feature, layer)
@@ -18,11 +44,25 @@ function createFeatures(earthquakeData) {
 
     // Create a GeoJSON layer that contains the features array on the earthquakeData object.
     // Run the onEachFeature function once for each piece of data in the array.
-    let earthquakes = L.geoJSON(earthquakeData,
+    let earthquakes = L.geoJSON(quakeData,
         {
-            onEachFeature: onEachFeature
-    });
+            onEachFeature: onEachFeature,
 
+        pointToLayer: function(feature, latlng) {
+        
+            let circleMarkerFeatures =
+            {
+                radius: circleSize(feature.properties.mag),
+                fillColor: colorDepth(feature.geometry.coordinates[2]),
+                fillOpacity: 0.6,
+                weight: 0.5,
+                stroke: true
+                
+            }
+            return L.circle(latlng, circleMarkerFeatures);
+        }
+    });
+;
     //Send the earthquakes layer to the createmap function.
     createMap(earthquakes);
 }
