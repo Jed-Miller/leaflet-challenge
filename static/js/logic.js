@@ -1,6 +1,5 @@
 //Store the JSON endpoint as queryUrl.
 let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-let tectonicsLayerUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
 //Perform a GET request to the query URL.
 d3.json(queryUrl).then(function(data) 
@@ -76,61 +75,28 @@ function createFeatures(quakeData) {
 
 function createMap(earthquakes)
 {
-    //Create the base layers (outdoors, grayscalle, satellite) from mapbox.
-    let outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/{z}/{x}/{y}?access_token={access_token}', 
+    //Create the base layers.
+    let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
     {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    zoom: 13,
-    access_token: api_key
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     })
 
-    let grayscale = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token={access_token}', 
+    let topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', 
     {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    zoom: 13,
-    access_token: api_key
-    })
-
-    let dark = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token={access_token}', 
-    {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    zoom: 13,
-    access_token: api_key
-    })
-
-    let satellite = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{z}/{x}/{y}?access_token={access_token}', 
-    {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    zoom: 13,
-    access_token: api_key
+    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
     });
-
-    //Create a plate tectonics layer.
-    tPlates = L.layerGroup();
-
-        d3.json(tectonicsLayerUrl).then(function(data) {
-
-            console.log(data);
-            L.geoJSON(data, {
-                color: "red",
-                weight: 1
-            }).addTo(tPlates);
-        });
 
     //Create a baseMaps object.
     let baseMaps =
     {
-        Outdoors: outdoors,
-        Satellite: satellite,
-        Light: grayscale,
-        Dark: dark
+        Street: street,
+        Topo: topo
     };
 
     //Create an overlay object to hold our overlay.
     let overlayMaps =
     {
-        Earthquakes: earthquakes,
-        "Tectonic Plates": tPlates
+        Earthquakes: earthquakes
     };
 
     //Create our map
@@ -138,7 +104,7 @@ function createMap(earthquakes)
     {
         center: [37.09, -95.71],
         zoom: 5,
-        layers: [outdoors, earthquakes, tPlates]
+        layers: [street, earthquakes]
     });
 
     //Create a layer control.
@@ -149,7 +115,23 @@ function createMap(earthquakes)
     }).addTo(myMap);
 
 
-    //Create legend
+    // let legend = L.control({position: 'bottomright'});
+    // legend.onAdd = function () {
+    //     let div = L.DomUtil.create('div', 'info legend');
+    //     let categories = [-10, 10, 30, 50, 70, 90];
+    //     let labels = [];
+    //     let legendTitle = "Earthquake Depth";
+
+    //     div.innerHTML += "<h4>" + legendTitle + "</h4>";
+
+    //     for (let i = 0; i < categories.length; i++) {
+    //         labels.push('<ul style="background:' + colorDepth(categories[i] + 1) + '"></i>' + categories[i] + (categories[i + 1] ? '&ndash;' + categories[i + 1] + '' : '+') + '</i></ul>');
+    //         }
+
+    //         div.innerHTML += "<ul>" + labels.join('') + "</ul>";
+    //     return div;
+    //     };
+    
     let legend = L.control({position: "bottomright"});
     legend.onAdd = function() {
         let div = L.DomUtil.create("div", "info legend"),
