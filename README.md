@@ -8,25 +8,25 @@ The USGS is interested in building a new set of tools that will allow them to vi
 
 ## Part 1: Create Earthquake Visualization
 
-![Earthquake_outdoor_view](./images/Outdoors_earthquake_view.png "Outdoors Earthquake View")
+![Earthquake_outdoor_view](./Images/Outdoors_earthquake_view.png "Outdoors Earthquake View")
 
 In order to visualize the USGS data, we needed to visit the USGS GeoJSON Feed (https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) and choose a dataset to visualize.
 
-![USGS_GeoJSON](./images/3-Data.png "USGS GeoJSON Feed")
+![USGS_GeoJSON](./Images/3-Data.png "USGS GeoJSON Feed")
 
 
 I chose the "All Earthquakes from the Past 7 Days" dataset to pull for the visualization.
 
 
-![last_7_days](./images/4-JSON.png "All Earthquakes Last 7 Days JSON")
+![last_7_days](./Images/4-JSON.png "All Earthquakes Last 7 Days JSON")
 
 Using d3 and Leaflet, we create a map to plot all of the earthquakes where the size of circle marker related to the magnitude of the earthquake and the color related to the depth of the quake. We also created popups to show additional information about each quake when you clicked on the marker. Lastly, we created a legend to express the color coding we used to display the depth of each quake, also adapting the css file to create the expected legend.
 
-![legend](./images/legend.png "Legend") ![legend_css](./images/legend_css_snippet.png "Legend Snippet") 
+![legend](./Images/legend.png "Legend") ![legend_css](./Images/legend_css_snippet.png "Legend Snippet") 
 
 ## Part 2: Different Style Maps and Tectonic Plate Lines
 
-![Mapbox_styles](./images/Mapbox_styles.png "Mapbox Styles")
+![Mapbox_styles](./Images/Mapbox_styles.png "Mapbox Styles")
 
 
 For the second part, we needed to use different map styles, using Mapbox as our source. In order to access these styles, we needed to retrieve a public access token from mapbox for our API call.
@@ -34,5 +34,5 @@ For the second part, we needed to use different map styles, using Mapbox as our 
 Lastly, we pulled the raw data from a github repository that would allow us to embed the tectonic plate lines as a layer in our map. https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json
 
 
-![tectonic_plates](./images/Satellite_quake_plates_view.png "View with plate lines")
+![tectonic_plates](./Images/Satellite_quake_plates_view.png "View with plate lines")
 
