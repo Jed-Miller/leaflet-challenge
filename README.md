@@ -38,3 +38,5 @@ Lastly, we pulled the raw data from a github repository that would allow us to e
 
 ![tectonic_plates](./Images/Satellite_quake_plates_view.png "View with plate lines")
 
+Live Github Pages Deployment: https://jed-miller.github.io/leaflet-challenge/
+
