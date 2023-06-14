@@ -22,7 +22,7 @@ I chose the "All Earthquakes from the Past 7 Days" dataset to pull for the visua
 
 Using d3 and Leaflet, we create a map to plot all of the earthquakes where the size of circle marker related to the magnitude of the earthquake and the color related to the depth of the quake. We also created popups to show additional information about each quake when you clicked on the marker. Lastly, we created a legend to express the color coding we used to display the depth of each quake, also adapting the css file to create the expected legend.
 
-![legend](./Images/legend.png "Legend")
+![legend](./Images/legend.png "Legend")<img src="./Images/legend_css_snippet.png" alt="Legend Snippet" width="130" height="170"/>
 
 ## Part 2: Different Style Maps and Tectonic Plate Lines
 
